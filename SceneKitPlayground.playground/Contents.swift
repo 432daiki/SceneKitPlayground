@@ -8,7 +8,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         let scnView = SCNView(frame: CGRect(origin: .zero, size: CGSize(width: 375.0, height: 667.0)))
-        scnView.backgroundColor = .red
+        scnView.backgroundColor = .darkGray
         scnView.allowsCameraControl = true
         view.addSubview(scnView)
 
@@ -26,12 +26,32 @@ class ViewController: UIViewController {
         let lightNode = SCNNode()
         lightNode.light = light
         lightNode.position = SCNVector3(x: 10, y: 10, z: 10)
-        scene.rootNode.addChildNode(lightNode)
+//        scene.rootNode.addChildNode(lightNode)
 
-        let cubeGeometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.1)
+        let cubeGeometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
         let cubeNode = SCNNode(geometry: cubeGeometry)
-        cubeNode.rotation = SCNVector4(x: 1.0, y: 1.0, z: 0.0, w: Float(M_PI * 0.25));
+        cubeNode.rotation = SCNVector4(x: 1.0, y: 1.0, z: 0.0, w: Float(M_PI * 0.25))
         scene.rootNode.addChildNode(cubeNode)
+
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.green
+        material.locksAmbientWithDiffuse = true
+
+        let imageView = UIImageView(image: UIImage(named: "Messages"))
+        imageView.frame = CGRect(origin: .zero, size: CGSize(width: 1, height: 1))
+        imageView.backgroundColor = .red
+        let imageMaterial = SCNMaterial()
+        imageMaterial.diffuse.contents = imageView
+        imageMaterial.locksAmbientWithDiffuse = true
+
+        cubeGeometry.materials = [
+            imageMaterial,
+            material,
+            material,
+            material,
+            material,
+            material,
+        ]
     }
 }
 
